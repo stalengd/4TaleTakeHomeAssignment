@@ -1,0 +1,29 @@
+using System.Text;
+using UnityEngine;
+using FourTale.TestCardGame.Characters;
+
+namespace FourTale.TestCardGame.Cards.Effects
+{
+    public sealed class CardEffectDefend : CardEffectComponent
+    {
+        [SerializeField] private int _armorAmount = 5;
+        [SerializeField] private bool _isActorTargeted = false;
+
+        public override bool CanApply(ICharacter actor, ICharacter target)
+        {
+            return _isActorTargeted || !actor.Fraction.IsAggressiveTo(target.Fraction);
+        }
+
+        public override void AppendDescription(StringBuilder description)
+        {
+            description.Append("Gain ");
+            description.Append(_armorAmount);
+            description.Append(" block.");
+        }
+
+        protected override void Apply(ICharacter actor, ICharacter target)
+        {
+            (_isActorTargeted ? actor : target).ApplyArmor(_armorAmount);
+        }
+    }
+}
