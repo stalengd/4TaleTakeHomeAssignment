@@ -73,6 +73,7 @@ namespace FourTale.TestCardGame.Cards
             {
                 _cardUsed?.Invoke(_selectedCard, target.Character);
             }
+            _deckView.SetCardSelected(_selectedCard, false);
             _selectedCard = null;
         }
 
@@ -105,7 +106,12 @@ namespace FourTale.TestCardGame.Cards
 
         private void OnCardUseStarted(ICard card)
         {
+            if (_selectedCard != null)
+            {
+                _deckView.SetCardSelected(_selectedCard, false);
+            }
             _selectedCard = card;
+            _deckView.SetCardSelected(card, true);
         }
 
         private void OnCardDrawn(ICard card)

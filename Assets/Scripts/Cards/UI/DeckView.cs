@@ -35,6 +35,15 @@ namespace FourTale.TestCardGame.Cards.UI
             Destroy(view.gameObject);
         }
 
+        public void SetCardSelected(ICard card, bool isSelected)
+        {
+            if (!_cardViews.TryGetValue(card, out CardView view))
+            {
+                return;
+            }
+            view.SetSelected(isSelected);
+        }
+
         public void ClearHand()
         {
             foreach (Transform child in _handCardsHolder)

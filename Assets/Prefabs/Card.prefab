@@ -396,6 +396,11 @@ MonoBehaviour:
   _nameText: {fileID: 1943629620344725871}
   _descriptionText: {fileID: 2821517051007045796}
   _energyPriceText: {fileID: 2903934785223369312}
+  _body: {fileID: 8170078957718748013}
+  _bodyDefaultOffset: {x: 0, y: 50}
+  _bodySelectedOffset: {x: 0, y: 100}
+  _animationSmoothing: 5
+  _angleSpread: 5
 --- !u!1 &7261180778358907300
 GameObject:
   m_ObjectHideFlags: 0

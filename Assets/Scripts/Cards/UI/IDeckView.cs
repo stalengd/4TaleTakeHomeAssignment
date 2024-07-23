@@ -7,6 +7,7 @@ namespace FourTale.TestCardGame.Cards.UI
         void ClearHand();
         CardView CreateCardView(ICard card, Action<ICard> useStarted);
         void RemoveCardView(ICard card);
+        void SetCardSelected(ICard card, bool isSelected);
         void SetDiscardPile(int count);
         void SetDrawPile(int count);
     }
