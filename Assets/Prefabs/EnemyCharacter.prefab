@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e5d243d51a29745aa84062e4d2b9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectPrefab: {fileID: 3729146152823429209, guid: 8b18748a89654a740b5656ebcd9ceab0, type: 3}
   _healthFill: {fileID: 9223083719034357727}
   _healthText: {fileID: 6451282051611158850}
   _armorText: {fileID: 5208610983890016321}
