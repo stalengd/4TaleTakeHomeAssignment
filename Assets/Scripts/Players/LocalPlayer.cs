@@ -22,7 +22,7 @@ namespace FourTale.TestCardGame.Players
 
         private bool IsMyTurn => _battle.ActivePlayer == this;
 
-        private readonly IDeckInteractor _deckInteractor;
+        private readonly IDeckPresenter _deckInteractor;
         private readonly IMainCharacterService _mainCharacterService;
         private readonly INextTurnButton _nextTurnButton;
         private readonly IEnergyDisplay _energyDisplay;
@@ -33,7 +33,7 @@ namespace FourTale.TestCardGame.Players
         private int _currentEnergy;
 
         public LocalPlayer(
-            IDeckInteractor deckInteractor,
+            IDeckPresenter deckInteractor,
             IMainCharacterService mainCharacterService,
             INextTurnButton nextTurnButton,
             IEnergyDisplay energyDisplay)

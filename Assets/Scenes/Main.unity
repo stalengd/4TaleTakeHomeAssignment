@@ -206,7 +206,7 @@ MonoBehaviour:
   _characterRenderersField: {fileID: 335805884}
   _cardTypesProvider: {fileID: 11400000, guid: cd4f71dd02310104facb010a7750d778, type: 2}
   _eventSystem: {fileID: 1604099791}
-  _deckInteractor: {fileID: 665962654}
+  _deckView: {fileID: 665962654}
   _energyDisplay: {fileID: 695841639}
   _nextTurnButton: {fileID: 428361127}
 --- !u!1 &335805882
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 665962652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 423a2fc2514348948be6f1c677edfdc3, type: 3}
+  m_Script: {fileID: 11500000, guid: 50cbaa37387161845bf2f17fea2036e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cardPrefab: {fileID: 5354362667098812529, guid: a770c908559553543b87e7f2f5c0dc8e, type: 3}

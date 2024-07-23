@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
 using Zenject;
 using FourTale.TestCardGame.Cards.Collections;
 using FourTale.TestCardGame.Cards.UI;
@@ -9,29 +8,24 @@ using FourTale.TestCardGame.Characters;
 
 namespace FourTale.TestCardGame.Cards
 {
-    public sealed class DeckInteractor : MonoBehaviour, IDeckInteractor
+    public sealed class DeckPresenter : IDeckPresenter, ITickable
     {
-        [SerializeField] private GameObject _cardPrefab;
-        [SerializeField] private Transform _handCardsHolder;
-        [SerializeField] private TMP_Text _drawPileText;
-        [SerializeField] private TMP_Text _discardPileText;
-
         private readonly List<RaycastResult> _raycastResults = new();
-        private readonly Dictionary<ICard, CardView> _cardViews = new();
-        private EventSystem _eventSystem;
-        private PointerEventData _pointerEvent;
+        private readonly IDeckView _deckView;
+        private readonly EventSystem _eventSystem;
+        private readonly PointerEventData _pointerEvent;
         private IBattleDeck _deck;
         private System.Action<ICard, ICharacter> _cardUsed;
         private ICard _selectedCard;
 
-        [Inject]
-        public void Construct(EventSystem eventSystem)
+        public DeckPresenter(IDeckView deckView, EventSystem eventSystem)
         {
+            _deckView = deckView;
             _eventSystem = eventSystem;
             _pointerEvent = new(eventSystem);
         }
 
-        private void Update()
+        public void Tick()
         {
             UpdateSelectedCard();
         }
@@ -39,12 +33,12 @@ namespace FourTale.TestCardGame.Cards
         public void MountDeck(IBattleDeck deck, System.Action<ICard, ICharacter> cardUsed)
         {
             DismountDeck();
-            ClearHand();
+            _deckView.ClearHand();
             _deck = deck;
             _cardUsed = cardUsed;
             foreach (var card in deck.Hand.Cards)
             {
-                CreateCardView(card);
+                _deckView.CreateCardView(card, OnCardUseStarted);
             }
             deck.CardDrawn += OnCardDrawn;
             deck.CardDiscarded += OnCardDiscarded;
@@ -62,36 +56,6 @@ namespace FourTale.TestCardGame.Cards
             _deck.CardDrawn -= OnCardDrawn;
             _deck.CardDiscarded -= OnCardDiscarded;
             _deck.CardAddedToDrawPile -= OnCardAddedToDrawPile;
-        }
-
-        private CardView CreateCardView(ICard card)
-        {
-            if (!_cardViews.TryGetValue(card, out CardView view))
-            {
-                view = Instantiate(_cardPrefab, _handCardsHolder.transform)
-                    .GetComponent<CardView>();
-                _cardViews[card] = view;
-            }
-            view.Render(card, OnCardUseStarted);
-            return view;
-        }
-
-        private void RemoveCardView(ICard card)
-        {
-            if (!_cardViews.Remove(card, out var view))
-            {
-                return;
-            }
-            Destroy(view.gameObject);
-        }
-
-        private void ClearHand()
-        {
-            foreach (Transform child in _handCardsHolder)
-            {
-                Destroy(child.gameObject);
-            }
-            _cardViews.Clear();
         }
 
         private void UpdateSelectedCard()
@@ -131,12 +95,12 @@ namespace FourTale.TestCardGame.Cards
 
         private void RefreshDrawPileView()
         {
-            _drawPileText.text = _deck.DrawPileCount.ToString();
+            _deckView.SetDrawPile(_deck.DrawPileCount);
         }
 
         private void RefreshDiscardPileView()
         {
-            _discardPileText.text = _deck.DiscardPileCount.ToString();
+            _deckView.SetDiscardPile(_deck.DiscardPileCount);
         }
 
         private void OnCardUseStarted(ICard card)
@@ -146,13 +110,13 @@ namespace FourTale.TestCardGame.Cards
 
         private void OnCardDrawn(ICard card)
         {
-            CreateCardView(card);
+            _deckView.CreateCardView(card, OnCardUseStarted);
             RefreshDrawPileView();
         }
 
         private void OnCardDiscarded(ICard card)
         {
-            RemoveCardView(card);
+            _deckView.RemoveCardView(card);
             RefreshDiscardPileView();
         }
 

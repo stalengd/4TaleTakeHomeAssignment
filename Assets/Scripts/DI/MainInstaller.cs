@@ -8,6 +8,7 @@ using FourTale.TestCardGame.Players;
 using FourTale.TestCardGame.Characters;
 using FourTale.TestCardGame.Characters.Rendering;
 using FourTale.TestCardGame.Cards;
+using FourTale.TestCardGame.Cards.UI;
 
 namespace FourTale.TestCardGame.DI
 {
@@ -19,7 +20,7 @@ namespace FourTale.TestCardGame.DI
         [SerializeField] private CardTypesProvider _cardTypesProvider;
         [SerializeField] private EventSystem _eventSystem;
         [Header("UI")]
-        [SerializeField] private DeckInteractor _deckInteractor;
+        [SerializeField] private DeckView _deckView;
         [SerializeField] private EnergyDisplay _energyDisplay;
         [SerializeField] private NextTurnButton _nextTurnButton;
 
@@ -58,8 +59,11 @@ namespace FourTale.TestCardGame.DI
                 .FromInstance(_eventSystem);
 
             Container
-                .BindInterfacesTo<DeckInteractor>()
-                .FromInstance(_deckInteractor);
+                .BindInterfacesTo<DeckPresenter>()
+                .AsSingle();
+            Container
+                .BindInterfacesTo<DeckView>()
+                .FromInstance(_deckView);
             Container
                 .BindInterfacesTo<EnergyDisplay>()
                 .FromInstance(_energyDisplay);
